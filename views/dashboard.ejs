@@ -1,0 +1,446 @@
+dashboard works
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+</head>
+<body>
+    <%- include('./partials/navbar.ejs') %>
+    <style>
+        .table {
+  border-spacing: 0 0.85rem !important;
+}
+
+.table .dropdown {
+  display: inline-block;
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+  margin-bottom: 10px;
+  border: none;
+}
+
+.table thead tr,
+.table thead th {
+  border: none;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: transparent;
+}
+
+.table td {
+  background: #fff;
+}
+
+.table td:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.table td:last-child {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.avatar {
+  width: 2.75rem;
+  height: 2.75rem;
+  line-height: 3rem;
+  border-radius: 50%;
+  display: inline-block;
+  background: transparent;
+  position: relative;
+  text-align: center;
+  color: #868e96;
+  font-weight: 700;
+  vertical-align: bottom;
+  font-size: 1rem;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.avatar-sm {
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 0.83333rem;
+  line-height: 1.5;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+.avatar-blue {
+  background-color: #c8d9f1;
+  color: #467fcf;
+}
+
+table.dataTable.dtr-inline.collapsed
+  > tbody
+  > tr[role="row"]
+  > td:first-child:before,
+table.dataTable.dtr-inline.collapsed
+  > tbody
+  > tr[role="row"]
+  > th:first-child:before {
+  top: 28px;
+  left: 14px;
+  border: none;
+  box-shadow: none;
+}
+
+table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child,
+table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > th:first-child {
+  padding-left: 48px;
+}
+
+table.dataTable > tbody > tr.child ul.dtr-details {
+  width: 100%;
+}
+
+table.dataTable > tbody > tr.child span.dtr-title {
+  min-width: 50%;
+}
+
+table.dataTable.dtr-inline.collapsed > tbody > tr > td.child,
+table.dataTable.dtr-inline.collapsed > tbody > tr > th.child,
+table.dataTable.dtr-inline.collapsed > tbody > tr > td.dataTables_empty {
+  padding: 0.75rem 1rem 0.125rem;
+}
+
+div.dataTables_wrapper div.dataTables_length label,
+div.dataTables_wrapper div.dataTables_filter label {
+  margin-bottom: 0;
+}
+
+@media (max-width: 767px) {
+  div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+    -ms-flex-pack: center !important;
+    justify-content: center !important;
+    margin-top: 1rem;
+  }
+}
+
+.btn-icon {
+  background: #fff;
+}
+.btn-icon .bx {
+  font-size: 20px;
+}
+
+.btn .bx {
+  vertical-align: middle;
+  font-size: 20px;
+}
+
+.dropdown-menu {
+  padding: 0.25rem 0;
+}
+
+.dropdown-item {
+  padding: 0.5rem 1rem;
+}
+
+.badge {
+  padding: 0.5em 0.75em;
+}
+
+.badge-success-alt {
+  background-color: #d7f2c2;
+  color: #7bd235;
+}
+
+.table a {
+  color: #212529;
+}
+
+.table a:hover,
+.table a:focus {
+  text-decoration: none;
+}
+
+table.dataTable {
+  margin-top: 12px !important;
+}
+
+.icon > .bx {
+  display: block;
+  min-width: 1.5em;
+  min-height: 1.5em;
+  text-align: center;
+  font-size: 1.0625rem;
+}
+
+.btn {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+}
+
+.avatar-blue {
+      background-color: #c8d9f1;
+      color: #467fcf;
+    }
+
+    .avatar-pink {
+      background-color: #fcd3e1;
+      color: #f66d9b;
+    }
+    </style>
+
+    <div class="container" style="margin-top: 100px;">
+        <div class="row py-5">
+          <div class="col-12">
+            <table id="example" class="table table-hover responsive nowrap" style="width:100%">
+              <thead>
+                <tr>
+                  <th> Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <% if(role === "superadmin") { %>
+                    <th>Actions</th>
+
+
+                    <% } %>
+                </tr>
+              </thead>
+              <tbody>
+                  <% for(var i=0; i < data.length; i++)  { %>
+                    <tr>
+                        <td>
+                          <a href="#">
+                            <div class="d-flex align-items-center">
+                              <div class="avatar avatar-blue mr-3" style="text-transform: capitalize;"><%= data[i].username.charAt(0) %></div>
+            
+                              <div class="">
+                                <p class="font-weight-bold mb-0"><%= data[i].username %></p>
+                              </div>
+                            </div>
+                          </a>
+                        </td>
+                        <td><%= data[i].email %></td>
+                        <td><%= data[i].role %></td>
+                         <% if(role === "superadmin") { %>
+                          <td>
+                         
+                            <a  href="#" title="Edit"   data-toggle="modal" data-target="#exampleModal1"
+                            id="<%- data[i].id %>"><i class="bx bxs-pencil mr-2"></i> </a>
+                            <form action="/delete" method="POST" id="del">
+                                   
+                                 
+    
+                              <input type="hidden" value="<%- data[i].id %>" id="id" name="id" class="form-control"   class="form-control">
+
+                              <a type="submit" class=" text-danger" href="#" title="Remove" 
+                              onclick="myFunction()"     ><i class="bx bxs-trash mr-2"></i> </a>
+                            </form>
+                       
+                         
+                      </td>
+
+                          <% } %>
+                        
+                       
+                      </tr>
+                      <script>
+                        function myFunction() {
+                            document.getElementById("del").submit();
+                        }
+                    </script>
+                      <script>
+                        jQuery(function($){
+
+                        $("#<%- data[i].id %>").click(function () {
+                    
+                        
+
+                    $('#username').val("<%- data[i].username %>");
+                    $('#email').val("<%- data[i].email %>");
+                    $('#role').val("<%- data[i].role %>");
+
+
+                    $('#id').val("<%- data[i].id %>");
+
+
+
+                  });
+
+
+                 
+                  function myfunction1() {
+
+
+                    $('body').removeClass('modal-open');
+
+                    $('.modal-backdrop').remove();
+
+                  }
+
+                        })
+                 
+                      </script>
+
+
+                    <% } %>
+                    <!-- update call modal with data  -->
+                    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="card my-card">
+                          <div class="card-header ">
+
+                          </div>
+                          <div class="card-body">
+                            <form action="/update" method="POST">
+                              <div class="form-group">
+                                <label>Username</label>
+                                <!-- <input type="text" value="" id="test" class="form-control"> -->
+                                <input type="text" value="" name="username" id="username"
+                                  class="form-control" readonly>
+
+
+                                <label>Email</label>
+                                <input type="text" value="" name="email" id="email"
+                                  class="form-control" readonly>
+
+                                <label>Role</label>
+                               <select class="form-control" id="role" name="role" required >
+                                 <option value="">Select Role</option>
+                                 <option value="admin">Admin</option>
+                                 <option value="Superadmin">Super Admin</option>
+
+
+                               </select>
+
+                                <input type="hidden" value="" id="id" name="id" class="form-control"   class="form-control">
+                       
+
+                              </div>
+
+
+
+                              <div class="card-footer text-right">
+                 
+                                <button class="btn btn-primary my-update mr-1" type="submit">Update</button>
+                                <button class="btn btn-secondary my-cancel" data-dismiss="modal" aria-label="Close"
+                                  onclick="myfunction1()" type="button">Cancel</button>
+
+
+
+                              </div>
+                          </div>
+                          </form>
+
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                          <!-- update call modal with data  -->
+
+                          <!-- delete call modal -->
+                          <div class="modal fade" id="exampleModal12" tabindex="-1" role="dialog"
+                          aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="card my-card">
+                                <div class="card-header ">
+      
+                                </div>
+                                <div class="card-body">
+                                  <img src="https://image.freepik.com/free-vector/inbox-cleanup-concept-illustration_114360-1020.jpg" alt="" width="70%">
+                                    <p style="text-align: center;
+                                    color: red;
+                                    font-size: 22px;">Are you sure you want to Delete this record ? </p>
+                                  <form action="/delete" method="POST">
+                                     
+                                   
+      
+                                      <input type="hidden" value="" id="id" name="id" class="form-control"   class="form-control">
+                             
+      
+                                    </div>
+      
+      
+      
+                                    <div class="card-footer text-right">
+                       
+                                      <button class="btn btn-danger my-update mr-1" type="submit">Delete</button>
+                                      <button class="btn btn-secondary my-cancel" data-dismiss="modal" aria-label="Close"
+                                        onclick="myfunction1()" type="button">Cancel</button>
+      
+      
+      
+                                    </div>
+                                </div>
+                                </form>
+      
+                              </div>
+                            </div>
+                          </div>
+      
+                        </div>
+                        
+
+                        <!-- delete call modal -->
+
+                
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+    
+
+    <%- include('./partials/script.ejs') %>
+    <!-- data table script -->
+    <script>
+        $(document).ready(function() {
+  $("#example").DataTable({
+    aaSorting: [],
+    responsive: true,
+
+    columnDefs: [
+      {
+        responsivePriority: 1,
+        targets: 0
+      },
+      {
+        responsivePriority: 2,
+        targets: -1
+      }
+    ]
+  });
+
+  $(".dataTables_filter input")
+    .attr("placeholder", "Search here...")
+    .css({
+      width: "300px",
+      display: "inline-block"
+    });
+
+  $('[data-toggle="tooltip"]').tooltip();
+});
+
+    </script>
+  
+    <!-- data table script end -->
+
+
+    
+</body>
+</html>
